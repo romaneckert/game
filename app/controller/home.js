@@ -1,5 +1,9 @@
 exports.index = (req, res) => {
-    res.render('home/index', {
-      title: 'Home'
-    });
-  };
+  res.render('home/index', {
+    meta: {
+      title: 'Home',
+      description: 'Home'     
+    },
+    message: 'Home'
+  });
+};

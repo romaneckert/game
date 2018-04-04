@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const compression = require('compression');
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
@@ -8,6 +9,9 @@ app.use(helmet());
 
 // serve static files
 app.use(express.static(__dirname + '/../public'));
+
+// compress all responses
+app.use(compression());
 
 // configure view
 app.set('views', __dirname + '/view/')
