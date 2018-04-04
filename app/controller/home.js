@@ -3,7 +3,6 @@ exports.index = (req, res) => {
     meta: {
       title: 'Home',
       description: 'Home'     
-    },
-    message: 'Home'
+    }
   });
 };

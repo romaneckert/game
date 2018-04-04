@@ -1,4 +1,11 @@
 extends ../layout.pug
 
 block content
-    | #{message} 
+    form(method='POST' action='/user/sign-in')
+          div.form-group
+            label(for='email') Email:
+            input#email.form-control(type='email' placeholder='name@email.com' name='email')
+          div.form-group
+            label(for='password') Password:
+            input#password.form-control(type='password' name='password')
+          button.btn.btn-primary(type='submit') Sign in

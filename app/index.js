@@ -5,9 +5,11 @@ const compression = require('compression');
 const express = require('express');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
+const auth = require('./core/auth');
 
 // write .env file to process.env
 const result = dotenv.config({path: __dirname + '/.env'});
+if(result.error) throw result.error;
 
 // create express app
 const app = express();
@@ -19,7 +21,10 @@ app.use(helmet());
 app.use(express.static(__dirname + '/../public'));
 
 // compress all responses
-app.use(compression());
+//app.use(compression());
+
+// authentification
+app.use(auth);
 
 // configure view
 app.set('views', __dirname + '/view/')
@@ -33,6 +38,7 @@ const controller = {
 
 // define routing
 app.get('/', controller.home.index);
+app.post('/user/sign-in/', controller.user.login)
 
 // listen on port 3000
 app.listen(3000);
