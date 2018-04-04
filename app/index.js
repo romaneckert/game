@@ -1,6 +1,13 @@
 #!/usr/bin/env node
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const helmet = require('helmet');
+
+// activate helmet
+app.use(helmet());
+
+// serve static files
+app.use(express.static(__dirname + '/../public'));
 
 // configure view
 app.set('views', __dirname + '/view/')
@@ -14,9 +21,6 @@ const controller = {
 
 // define routing
 app.get('/', controller.home.index);
-
-// serve static files
-app.use(express.static(__dirname + '/../public'));
 
 // listen on port 3000
 app.listen(3000);
