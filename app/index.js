@@ -1,8 +1,16 @@
 #!/usr/bin/env node
+
+// load required core libs
 const compression = require('compression');
 const express = require('express');
-const app = express();
 const helmet = require('helmet');
+const dotenv = require('dotenv');
+
+// write .env file to process.env
+const result = dotenv.config({path: __dirname + '/.env'});
+
+// create express app
+const app = express();
 
 // activate helmet
 app.use(helmet());
