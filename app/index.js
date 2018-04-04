@@ -6,6 +6,8 @@ const express = require('express');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
 const auth = require('./core/auth');
+const https = require('https');
+const fs = require('fs');
 
 // write .env file to process.env
 const result = dotenv.config({path: __dirname + '/.env'});
@@ -40,5 +42,10 @@ const controller = {
 app.get('/', controller.home.index);
 app.post('/user/sign-in/', controller.user.login)
 
-// listen on port 3000
-app.listen(3000);
+// create https server
+const server = https.createServer({
+    key: fs.readFileSync(__dirname + '/key.pem'),
+    cert: fs.readFileSync(__dirname + '/cert.pem')
+}, app);
+
+server.listen(3000);
