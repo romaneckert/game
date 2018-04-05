@@ -3,6 +3,7 @@
 // load required core libs
 const compression = require('compression');
 const express = require('express');
+const cookies = require('cookie-parser')
 const helmet = require('helmet');
 const dotenv = require('dotenv');
 const auth = require('./core/auth');
@@ -20,11 +21,11 @@ const app = express();
 // activate helmet
 app.use(helmet());
 
+// parse cookies
+app.use(cookies());
+
 // serve static files
 app.use(express.static(__dirname + '/../public'));
-
-// compress all responses
-//app.use(compression());
 
 // authentification
 app.use(auth);
@@ -36,15 +37,24 @@ app.set('view engine', 'pug');
 // require controller
 const controller = {
     home: require('./controller/home'),
-    user: require('./controller/user')
+    user: require('./controller/user'),
+    admin : require('./controller/admin')
 };
 
-app.use('/admin/dashboard', role('admin'));
-app.use('/user/dashboard', role('user'));
-
-// define routing
+// public routes
 app.get('/', controller.home.index);
-app.post('/user/sign-in/', controller.user.login)
+
+// admin routes
+app.use('/admin/dashboard', role('admin'));
+app.get('/admin/dashboard', controller.admin.dashboard);
+
+// use routes
+app.use('/user/dashboard', role('user'));
+app.get('/user/dashboard', controller.user.dashboard);
+app.post('/user/sign-in/', controller.user.login);
+
+// compress all responses
+//app.use(compression());
 
 // create https server
 const server = https.createServer({

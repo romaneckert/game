@@ -5,19 +5,34 @@ exports.login = (req, res) => {
     console.log(req.params.user);
     console.log(req.params.password);
 
+    const tokenExpiresIn = 86400;
+
     let user = {
         firstName: 'Max',
-        lastName: 'Mustermann'
+        lastName: 'Mustermann',
+        role: 'user'
     };
 
-    let token = jwt.sign(user, process.env.SECRET);
+    let token = jwt.sign({
+        data: {
+            user: user
+        }
+    },
+    process.env.SECRET,
+    {
+        expiresIn: tokenExpiresIn
+    });
 
-    res.set('Set-Cookie', 'access_token=' + token + '; Secure; HttpOnly; Max-Age=86400; SameSite=Strict; Path=/');
+    res.set('Set-Cookie', 'access_token=' + token + '; Secure; HttpOnly; Max-Age=' + tokenExpiresIn + '; SameSite=Strict; Path=/');
 
-    res.render('dashboard', {
+    res.redirect('/user/dashboard');
+};
+
+exports.dashboard = (req, res) => {
+    res.render('user/dashboard', {
         meta: {
-            title: 'Home',
-            description: 'Home'
+            title: 'User Dashboard',
+            description: 'User Dashboard'
         }
     });
 };

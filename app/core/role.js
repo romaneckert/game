@@ -2,14 +2,15 @@
 module.exports = (...roles) => {
 
     const isAllowed = (role) => {
-        roles.indexOf(role) > -1;
+        return roles.indexOf(role) > -1;
     }
 
     return (req, res, next) => {
         if (req.user && isAllowed(req.user.role)) {
             next();
         } else {
-            res.status(403);
+            res.redirect('/');
         }
     }
+
 }

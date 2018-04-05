@@ -1,17 +1,20 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+
     try {
-        let token = req.headers.cookie.split('=')[1];
 
-        data = jwt.verify(token, process.env.SECRET);
+        if('string' === typeof req.cookies.access_token) {
 
-        console.log(data);
+            jwt.verify(req.cookies.access_token, process.env.SECRET, (err, decoded) => {
+                if(!err && 'object' === typeof decoded.data.user && null !== decoded.data.user) {
+                    req.user = decoded.data.user;
+                }
+            });
 
-    } catch (err) {
-        console.error(err);
-        next();
-    }
+        }
+
+    } catch (err) {}
 
     next();
 }

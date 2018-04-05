@@ -1,4 +1,4 @@
-exports.daashboard = (req, res) => {
+exports.dashboard = (req, res) => {
     res.render('admin/dashboard', {
         meta: {
             title: 'Admin Dashboard',
