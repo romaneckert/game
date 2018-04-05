@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
 
         console.log(data);
 
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         next();
     }

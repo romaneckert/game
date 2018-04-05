@@ -8,10 +8,11 @@ const dotenv = require('dotenv');
 const auth = require('./core/auth');
 const https = require('https');
 const fs = require('fs');
+const role = require('./core/role');
 
 // write .env file to process.env
-const result = dotenv.config({path: __dirname + '/.env'});
-if(result.error) throw result.error;
+const result = dotenv.config({ path: __dirname + '/.env' });
+if (result.error) throw result.error;
 
 // create express app
 const app = express();
@@ -37,6 +38,9 @@ const controller = {
     home: require('./controller/home'),
     user: require('./controller/user')
 };
+
+app.use('/admin/dashboard', role('admin'));
+app.use('/user/dashboard', role('user'));
 
 // define routing
 app.get('/', controller.home.index);

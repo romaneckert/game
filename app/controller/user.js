@@ -6,8 +6,8 @@ exports.login = (req, res) => {
     console.log(req.params.password);
 
     let user = {
-        firstName : 'Max',
-        lastName : 'Mustermann'
+        firstName: 'Max',
+        lastName: 'Mustermann'
     };
 
     let token = jwt.sign(user, process.env.SECRET);
@@ -17,7 +17,7 @@ exports.login = (req, res) => {
     res.render('dashboard', {
         meta: {
             title: 'Home',
-            description: 'Home'     
+            description: 'Home'
         }
     });
 };
