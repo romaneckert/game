@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 exports.login = (req, res) => {
 
+    // TODO: get user from db
     console.log(req.params.user);
     console.log(req.params.password);
 
