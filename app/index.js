@@ -10,6 +10,8 @@ const auth = require('./core/auth');
 const https = require('https');
 const fs = require('fs');
 const role = require('./core/role');
+const mongoose = require('mongoose');
+const db = mongoose.connection;
 
 // write .env file to process.env
 const result = dotenv.config({ path: __dirname + '/.env' });
@@ -62,4 +64,18 @@ const server = https.createServer({
     cert: fs.readFileSync(__dirname + '/cert.pem')
 }, app);
 
-server.listen(3000);
+// connect to mongodb
+mongoose.connect('mongodb://localhost/' + process.env.MONGODB);
+
+db.on('error', (err) => {
+    console.log('can not connect to db', err);
+});
+
+db.once('open', () => {
+    console.info('connected to mongodb: ' + process.env.MONGODB);
+    server.listen(process.env.SERVER_PORT, () => {
+        console.info('server started at port: ' + process.env.SERVER_PORT);
+    });
+});
+
+
