@@ -1,8 +1,7 @@
 exports.index = (req, res) => {
-    res.render('home/index', {
-        meta: {
-            title: 'Home',
-            description: 'Home'
-        }
-    });
+    return res.render('home/index', {
+      signUpErrors: {
+        attr: 'val'
+      }
+  });
 };

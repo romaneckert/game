@@ -44,7 +44,7 @@ app.set('view engine', 'pug');
 const controller = {
     home: require('./controller/home'),
     user: require('./controller/user'),
-    admin : require('./controller/admin')
+    admin: require('./controller/admin')
 };
 
 // public routes

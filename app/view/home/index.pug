@@ -1,6 +1,15 @@
 extends ../layout.pug
 
+block head
+    title Home
+    meta(name="description" content="Home")
+
 block content
+
+    if errors && error.form && error.form.signup
+        ul
+            each error in errors.form.signup
+                li #{error.message}
 
     form(method='POST' action='/user/sign-up')
         div.form-group
