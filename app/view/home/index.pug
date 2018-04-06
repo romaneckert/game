@@ -6,7 +6,7 @@ block head
 
 block content
 
-    if errors && error.form && error.form.signup
+    if errors && errors.form && errors.form.signup
         ul
             each error in errors.form.signup
                 li #{error.message}

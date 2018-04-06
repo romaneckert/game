@@ -6,4 +6,7 @@ html
         meta(name="viewport" content="width=device-width, initial-scale=1")
         block head
     body
+        header
+            if user
+                a(href="/user/sign-out") sign out
         block content

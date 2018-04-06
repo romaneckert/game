@@ -1,3 +1,4 @@
+const config = require('../core/config');
 const jwt = require('jsonwebtoken');
 const User = require('../model/user');
 
@@ -7,13 +8,15 @@ function addToken(user, res) {
             user: user
         }
     },
-    process.env.SECRET,
+    config.secret,
     {
-        expiresIn: process.env.USER_TOKEN_EXPIRES
+        expiresIn: config.userTokenExpires
     });
 
+    console.log(Date.now() + config.userTokenExpires);
+
     res.cookie('access_token', token, {
-        expires: new Date(Date.now() + process.env.USER_TOKEN_EXPIRES),
+        expires: new Date(Date.now() + config.userTokenExpires),
         httpOnly: true,
         sameSite: 'Strict',
         secure: true,

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 // load required core libs
+const config = require('./core/config');
 const compression = require('compression');
 const express = require('express');
 const cookies = require('cookie-parser')
 const helmet = require('helmet');
-const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const auth = require('./core/auth');
 const https = require('https');
@@ -13,10 +13,6 @@ const fs = require('fs');
 const role = require('./core/role');
 const mongoose = require('mongoose');
 const db = mongoose.connection;
-
-// write .env file to process.env
-const result = dotenv.config({ path: __dirname + '/.env' });
-if (result.error) throw result.error;
 
 // create express app
 const app = express();
@@ -71,16 +67,16 @@ const server = https.createServer({
 }, app);
 
 // connect to mongodb
-mongoose.connect('mongodb://localhost/' + process.env.MONGODB);
+mongoose.connect('mongodb://localhost/' + config.mongoDB);
 
 db.on('error', (err) => {
     console.log('can not connect to db', err);
 });
 
 db.once('open', () => {
-    console.info('connected to mongodb: ' + process.env.MONGODB);
-    server.listen(process.env.SERVER_PORT, () => {
-        console.info('server started at port: ' + process.env.SERVER_PORT);
+    console.info('connected to mongodb: ' + config.mongoDB);
+    server.listen(config.serverPort, () => {
+        console.info('server started at port: ' + config.serverPort);
     });
 });
 

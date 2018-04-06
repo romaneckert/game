@@ -1,3 +1,4 @@
+const config = require('../core/config');
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
@@ -6,7 +7,7 @@ module.exports = (req, res, next) => {
 
         if('string' === typeof req.cookies.access_token) {
 
-            jwt.verify(req.cookies.access_token, process.env.SECRET, (err, decoded) => {
+            jwt.verify(req.cookies.access_token, config.secret, (err, decoded) => {
                 if(!err && 'object' === typeof decoded.data.user && null !== decoded.data.user) {
                     req.user = decoded.data.user;
                 }
