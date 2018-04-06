@@ -6,6 +6,7 @@ const express = require('express');
 const cookies = require('cookie-parser')
 const helmet = require('helmet');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 const auth = require('./core/auth');
 const https = require('https');
 const fs = require('fs');
@@ -25,6 +26,9 @@ app.use(helmet());
 
 // parse cookies
 app.use(cookies());
+
+// body parser
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // serve static files
 app.use(express.static(__dirname + '/../public'));
@@ -53,7 +57,8 @@ app.get('/admin/dashboard', controller.admin.dashboard);
 // use routes
 app.use('/user/dashboard', role('user'));
 app.get('/user/dashboard', controller.user.dashboard);
-app.post('/user/sign-in/', controller.user.login);
+app.post('/user/sign-in/', controller.user.signIn);
+app.post('/user/sign-up/', controller.user.signUp);
 
 // compress all responses
 //app.use(compression());

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const User = require('../model/user');
 
-exports.login = (req, res) => {
+exports.signIn = (req, res) => {
 
     // TODO: get user from db
     console.log(req.params.user);
@@ -28,6 +29,21 @@ exports.login = (req, res) => {
 
     res.redirect('/user/dashboard');
 };
+
+exports.signUp = (req, res) => {
+
+    var user = new User({
+        email: req.body.email,
+        password: req.body.password
+    });
+
+    user.save((err) => {
+        console.log(err.errors);
+    });
+
+    res.redirect('/');
+
+}
 
 exports.dashboard = (req, res) => {
     res.render('user/dashboard', {
