@@ -12,7 +12,12 @@ function addToken(user, res) {
         expiresIn: process.env.USER_TOKEN_EXPIRES
     });
 
-    res.set('Set-Cookie', 'access_token=' + token + '; Secure; HttpOnly; Max-Age=' + process.env.USER_TOKEN_EXPIRES + '; SameSite=Strict; Path=/');
+    res.cookie('access_token', token, {
+        expires: new Date(Date.now() + process.env.USER_TOKEN_EXPIRES),
+        httpOnly: true,
+        sameSite: 'Strict',
+        secure: true,
+    });
 }
 
 exports.signIn = (req, res) => {
@@ -66,12 +71,24 @@ exports.signUp = (req, res) => {
                     }
                 }
             });
-        } else {
-            addToken(user,res);
-            return res.redirect('/user/dashboard');
-        }
+        } 
+
+        addToken(user,res);
+        return res.redirect('/user/dashboard');
     });
 }
+
+exports.signOut = (req, res) => {
+
+    res.cookie('access_token', '', {
+        expires: new Date(),
+        httpOnly: true,
+        sameSite: 'Strict',
+        secure: true,
+    });
+
+    res.redirect('/');
+};
 
 exports.dashboard = (req, res) => {
     res.render('user/dashboard', {

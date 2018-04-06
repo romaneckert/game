@@ -59,6 +59,7 @@ app.use('/user/dashboard', role('user'));
 app.get('/user/dashboard', controller.user.dashboard);
 app.post('/user/sign-in/', controller.user.signIn);
 app.post('/user/sign-up/', controller.user.signUp);
+app.get('/user/sign-out/', controller.user.signOut);
 
 // compress all responses
 //app.use(compression());
