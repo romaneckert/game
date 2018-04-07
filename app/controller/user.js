@@ -1,9 +1,10 @@
 const config = require('../core/config');
 const jwt = require('jsonwebtoken');
 const User = require('../model/user');
+const bcrypt = require('bcrypt');
 
-function addToken(user, res) {
-    let token = jwt.sign({
+function setAccessTokenCookie(user, res) {
+    let accessToken = jwt.sign({
         data: {
             user: user
         }
@@ -13,10 +14,8 @@ function addToken(user, res) {
         expiresIn: config.userTokenExpires
     });
 
-    console.log(Date.now() + config.userTokenExpires);
-
-    res.cookie('access_token', token, {
-        expires: new Date(Date.now() + config.userTokenExpires),
+    res.cookie('access_token', accessToken, {
+        expires: new Date(Date.now() + config.userTokenExpires * 1000),
         httpOnly: true,
         sameSite: 'Strict',
         secure: true,
@@ -25,17 +24,28 @@ function addToken(user, res) {
 
 exports.signIn = (req, res) => {
 
-    // TODO: get user from db
-    console.log(req.params.user);
-    console.log(req.params.password);
+    User.findOne({email: req.body.email}, 'email password role', (err, user) => {
 
-    let user = {
-        firstName: 'Max',
-        lastName: 'Mustermann',
-        role: 'user'
-    };
+        if(err) {
+            console.log(err);
+            return res.redirect('/');
+        }
 
-    res.redirect('/user/dashboard');
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+            if(err || !result) {
+                console.log(err);
+                return res.redirect('/');
+            }
+            
+            setAccessTokenCookie({
+                email: user.email,
+                role: user.role
+            }, res);
+            res.redirect('/user/dashboard');
+
+        });
+    });
+
 };
 
 exports.signUp = (req, res) => {
@@ -47,11 +57,11 @@ exports.signUp = (req, res) => {
                     signup: {
                         password: {
                             message: 'passwords are not the same',
-                            value: req.body.password
+                            value: ''
                         },
                         passwordRepeat: {
                             message: 'passwords are not the same',
-                            value: req.body.passwordRepeat
+                            value: ''
                         }
                     }
                 }
@@ -59,25 +69,37 @@ exports.signUp = (req, res) => {
         });
     }
 
-    var user = new User({
-        email: req.body.email,
-        password: req.body.password,
-        role: 'user'
-    });
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
 
-    user.save((err) => {
         if(err) {
-            return res.render('home/index', {
-                errors: {
-                    form: {
-                        signup: err.errors
-                    }
-                }
-            });
-        } 
+            console.log(err);
+            return res.redirect('/');
+        }
 
-        addToken(user,res);
-        return res.redirect('/user/dashboard');
+        var user = new User({
+            email: req.body.email,
+            password: hash,
+            role: 'user'
+        });
+    
+        user.save((err) => {
+            if(err) {
+                return res.render('home/index', {
+                    errors: {
+                        form: {
+                            signup: err.errors
+                        }
+                    }
+                });
+            } 
+    
+            setAccessTokenCookie({
+                email: user.email,
+                role: user.role
+            },
+            res);
+            return res.redirect('/user/dashboard');
+        });
     });
 }
 
