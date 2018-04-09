@@ -10,8 +10,8 @@ const bodyParser = require('body-parser');
 const auth = require('./core/auth');
 const https = require('https');
 const fs = require('fs');
-const role = require('./core/role');
 const mongoose = require('mongoose');
+const router = require('./core/router');
 const db = mongoose.connection;
 
 // create express app
@@ -36,26 +36,8 @@ app.use(auth);
 app.set('views', __dirname + '/view/')
 app.set('view engine', 'pug');
 
-// require controller
-const controller = {
-    home: require('./controller/home'),
-    user: require('./controller/user'),
-    admin: require('./controller/admin')
-};
-
-// public routes
-app.get('/', controller.home.index);
-
-// admin routes
-app.use('/admin/dashboard', role('admin'));
-app.get('/admin/dashboard', controller.admin.dashboard);
-
-// use routes
-app.use('/user/dashboard', role('user'));
-app.get('/user/dashboard', controller.user.dashboard);
-app.post('/user/sign-in/', controller.user.signIn);
-app.post('/user/sign-up/', controller.user.signUp);
-app.get('/user/sign-out/', controller.user.signOut);
+// register routes
+router(app);
 
 // compress all responses
 //app.use(compression());

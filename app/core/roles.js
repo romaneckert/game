@@ -1,5 +1,5 @@
 // middleware for doing role-based permissions
-module.exports = (...roles) => {
+module.exports = (roles) => {
 
     const isAllowed = (role) => {
         return roles.indexOf(role) > -1;

@@ -4,14 +4,14 @@ const dotenv = require('dotenv');
 const result = dotenv.config({ path: __dirname + '/.env' });
 if (result.error) throw result.error;
 
-let requiredEnvironementVariables = [
+let requiredEnvironmentVariables = [
     'SERVER_PORT',
     'SECRET',
     'MONGO_DB',
     'USER_TOKEN_EXPIRES'
 ];
 
-for(let variable of requiredEnvironementVariables) {
+for(let variable of requiredEnvironmentVariables) {
     if('string' !== typeof process.env[variable] || process.env[variable].length === 0) {
         throw new Error('environment variable ' + variable + ' does not exists');
     }
