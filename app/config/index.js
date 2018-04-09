@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 
 // write .env file to process.env
-const result = dotenv.config({ path: __dirname + '/../.env' });
+const result = dotenv.config({ path: __dirname + '/.env' });
 if (result.error) throw result.error;
 
 let requiredEnvironementVariables = [
@@ -14,7 +14,7 @@ let requiredEnvironementVariables = [
 for(let variable of requiredEnvironementVariables) {
     if('string' !== typeof process.env[variable] || process.env[variable].length === 0) {
         throw new Error('environment variable ' + variable + ' does not exists');
-    } 
+    }
 }
 
 const config = {

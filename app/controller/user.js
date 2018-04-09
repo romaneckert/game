@@ -1,4 +1,4 @@
-const config = require('../core/config');
+const config = require('../config');
 const jwt = require('jsonwebtoken');
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
@@ -36,7 +36,7 @@ exports.signIn = (req, res) => {
                 console.log(err);
                 return res.redirect('/');
             }
-            
+
             setAccessTokenCookie({
                 email: user.email,
                 role: user.role
@@ -81,7 +81,7 @@ exports.signUp = (req, res) => {
             password: hash,
             role: 'user'
         });
-    
+
         user.save((err) => {
             if(err) {
                 return res.render('home/index', {
@@ -91,8 +91,8 @@ exports.signUp = (req, res) => {
                         }
                     }
                 });
-            } 
-    
+            }
+
             setAccessTokenCookie({
                 email: user.email,
                 role: user.role

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // load required core libs
-const config = require('./core/config');
+const config = require('./config');
 const compression = require('compression');
 const express = require('express');
 const cookies = require('cookie-parser')
