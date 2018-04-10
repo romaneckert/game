@@ -17,6 +17,9 @@ const db = mongoose.connection;
 // create express app
 const app = express();
 
+// compress all responses
+app.use(compression());
+
 // activate helmet
 app.use(helmet());
 
@@ -38,9 +41,6 @@ app.set('view engine', 'pug');
 
 // register routes
 router(app);
-
-// compress all responses
-//app.use(compression());
 
 // create https server
 const server = https.createServer({
