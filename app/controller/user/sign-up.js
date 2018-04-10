@@ -1,6 +1,4 @@
-const User = require('../../model/user');
-const bcrypt = require('bcrypt');
-const accessToken = require('../../helper/access-token');
+const core = require('../../core');
 
 module.exports = (req, res) => {
     if(req.body.password !== req.body.passwordRepeat) {
@@ -22,14 +20,14 @@ module.exports = (req, res) => {
         });
     }
 
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
+    core.service.brypt.hash(req.body.password, 10, (err, hash) => {
 
         if(err) {
             console.log(err);
             return res.redirect('/');
         }
 
-        var user = new User({
+        var user = new core.model.user({
             email: req.body.email,
             password: hash,
             role: 'user'
@@ -45,7 +43,7 @@ module.exports = (req, res) => {
                     }
                 });
             }
-            accessToken({
+            core.service.accessToken({
                 email: user.email,
                 role: user.role
             },
