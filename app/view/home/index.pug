@@ -11,7 +11,7 @@ block content
             each error in errors.form.signup
                 li #{error.message}
 
-    form(method='POST' action='/user/sign-up')
+    form(method='POST' action='/user/sign-up/')
         div.form-group
             label(for='sign-up-email') Email:
             input#sign-up-email.form-control(type='email' placeholder='name@email.com' name='email')
@@ -23,7 +23,7 @@ block content
             input#sign-up-password-repeat.form-control(type='password' name='passwordRepeat')
         button.btn.btn-primary(type='submit') Sign up
 
-    form(method='POST' action='/user/sign-in')
+    form(method='POST' action='/user/sign-in/')
         div.form-group
             label(for='sign-in-email') Email:
             input#sign-in-email.form-control(type='email' placeholder='name@email.com' name='email')

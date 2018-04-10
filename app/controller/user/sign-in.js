@@ -1,6 +1,7 @@
 const core = require('../../core');
 
 module.exports = (req, res) => {
+
     core.model.user.findOne({email: req.body.email}, 'email password role', (err, user) => {
 
         if(err) {
@@ -14,12 +15,9 @@ module.exports = (req, res) => {
                 return res.redirect('/');
             }
 
-            core.service.accessToken({
-                email: user.email,
-                role: user.role
-            }, res);
+            core.service.accessToken.addCookie(user, res);
 
-            res.redirect('/user/');
+            res.redirect('/user/overwiew/');
 
         });
     });

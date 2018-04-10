@@ -43,11 +43,7 @@ module.exports = (req, res) => {
                     }
                 });
             }
-            core.service.accessToken({
-                email: user.email,
-                role: user.role
-            },
-            res);
+            core.service.accessToken.addCookie(user,res);
             return res.redirect('/user/');
         });
     });
