@@ -1,4 +1,4 @@
-const roles = require('./roles');
+const roles = require('../middleware/roles');
 /*
 app.post('/user/sign-in/', controller.user.signIn);
 app.post('/user/sign-up/', controller.user.signUp);
