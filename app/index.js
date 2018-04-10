@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // load required core libs
-const config = require('./config');
+const core = require('./core');
 const compression = require('compression');
 const express = require('express');
 const cookies = require('cookie-parser')
@@ -44,21 +44,21 @@ router(app);
 
 // create https server
 const server = https.createServer({
-    key: fs.readFileSync(__dirname + '/key.pem'),
-    cert: fs.readFileSync(__dirname + '/cert.pem')
+    key: fs.readFileSync(__dirname + '/config/key.pem'),
+    cert: fs.readFileSync(__dirname + '/config/cert.pem')
 }, app);
 
 // connect to mongodb
-mongoose.connect('mongodb://localhost/' + config.mongoDB);
+mongoose.connect('mongodb://localhost/' + core.config.mongoDB);
 
 db.on('error', (err) => {
     console.log('can not connect to db', err);
 });
 
 db.once('open', () => {
-    console.info('connected to mongodb: ' + config.mongoDB);
-    server.listen(config.serverPort, () => {
-        console.info('server started at port: ' + config.serverPort);
+    console.info('connected to mongodb: ' + core.config.mongoDB);
+    server.listen(core.config.serverPort, () => {
+        console.info('server started at port: ' + core.config.serverPort);
     });
 });
 

@@ -20,7 +20,7 @@ module.exports = (req, res) => {
         });
     }
 
-    core.service.brypt.hash(req.body.password, 10, (err, hash) => {
+    core.service.bcrypt.hash(req.body.password, 10, (err, hash) => {
 
         if(err) {
             console.log(err);
@@ -44,7 +44,7 @@ module.exports = (req, res) => {
                 });
             }
             core.service.accessToken.addCookie(user,res);
-            return res.redirect('/user/');
+            return res.redirect('/user/overview/');
         });
     });
 }
