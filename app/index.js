@@ -13,9 +13,12 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const router = require('./core/router');
 const db = mongoose.connection;
+const logger = require('./middleware/logger');
 
 // create express app
 const app = express();
+
+app.use(logger);
 
 // compress all responses
 app.use(compression());

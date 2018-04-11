@@ -4,7 +4,7 @@ module.exports = {
         fs: require('../service/fs'),
         accessToken : require('../service/access-token'),
         bcrypt: require('bcrypt'),
-        logger: require('../service/logger'),
+        logger: require('../service/app-logger'),
     },
     model: {
         user: require('../model/user')
