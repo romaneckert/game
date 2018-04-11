@@ -14,8 +14,8 @@ const mongoose = require('mongoose');
 const router = require('./core/router');
 const db = mongoose.connection;
 const accessLogger = require('./middleware/access-logger');
-const errorLogger = require('./middleware/error-logger');
-
+const errorHandler = require('./middleware/error-handler');
+const notFoundHandler = require('./middleware/not-found-handler');
 
 // create express app
 const app = express();
@@ -48,7 +48,9 @@ app.set('view engine', 'pug');
 router(app);
 
 // register error handler
-app.use(errorLogger);
+app.use(errorHandler);
+
+app.use(notFoundHandler);
 
 // create https server
 const server = https.createServer({
