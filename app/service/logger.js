@@ -1,43 +1,49 @@
 const winston = require('winston');
 const fs = require('./fs');
 const pathToLogs = __dirname + '/../../logs/';
-const pathToLogsApp = pathToLogs + 'app/';
+const path = require('path');
 
-fs.ensureDirExists(pathToLogsApp);
+fs.ensureDirExists(pathToLogs);
 
 const logFormat = winston.format.printf(info => {
     return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
 });
 
-const app = winston.createLogger({
-    format: winston.format.combine(
-        winston.format.label({ label: 'app' }),
-        winston.format.timestamp(),
-        logFormat
-    ),
+let format =  winston.format.combine(
+    winston.format.label({ label: 'app' }),
+    winston.format.timestamp(),
+    winston.format.simple(),
+    logFormat
+);
+
+let logger = winston.createLogger({
+    level: 'info',
     transports: [
         new winston.transports.File({
-            level: 'info',
-            filename: pathToLogsApp + 'info.log',
-            handleExceptions: true,
-            json: false,
-            maxsize: 5242880, //5MB
-            maxFiles: 5,
-            colorize: true
+            filename: path.join(pathToLogs, 'info.log'),
+            format: format,
+            level: 'info'
         }),
         new winston.transports.File({
-            level: 'error',
-            filename: pathToLogsApp + 'error.log',
-            handleExceptions: true,
-            json: false,
-            maxsize: 5242880, //5MB
-            maxFiles: 5,
-            colorize: true
+            filename: path.join(pathToLogs, 'error.log'),
+            format: format,
+            level: 'error'
         }),
-        new winston.transports.Console(),
+        new winston.transports.File({
+            filename: path.join(pathToLogs + 'debug.log'),
+            format: format
+        })
     ]
-});
+  });
 
-module.exports = {
-    app : app
+// log to console
+if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+        format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple()
+        )
+    }));
 }
+
+module.exports = logger;
