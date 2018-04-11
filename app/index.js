@@ -52,13 +52,15 @@ const server = https.createServer({
 mongoose.connect('mongodb://localhost/' + core.config.mongoDB);
 
 db.on('error', (err) => {
-    console.log('can not connect to db', err);
+    core.service.logger.app.info('can not connect to db', err);
 });
 
+core.service.logger.app.error('log errror');
+
 db.once('open', () => {
-    console.info('connected to mongodb: ' + core.config.mongoDB);
+    core.service.logger.app.info('connected to mongodb: ' + core.config.mongoDB);
     server.listen(core.config.serverPort, () => {
-        console.info('server started at port: ' + core.config.serverPort);
+        core.service.logger.app.info('server started at port: ' + core.config.serverPort);
     });
 });
 
