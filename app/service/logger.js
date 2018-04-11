@@ -1,11 +1,9 @@
 const winston = require('winston');
-const fs = require('fs');
+const fs = require('./fs');
 const pathToLogs = __dirname + '/../../logs/';
 const pathToLogsApp = pathToLogs + 'app/';
 
-if(!fs.existsSync(pathToLogsApp)) {
-    fs.mkdirSync(pathToLogsApp);
-}
+fs.ensureDirExists(pathToLogsApp);
 
 const logFormat = winston.format.printf(info => {
     return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
