@@ -17,7 +17,7 @@ module.exports = (req, res) => {
 
             core.service.accessToken.addCookie(user, res);
 
-            res.redirect('/user/overwiew/');
+            res.redirect('/user/overview/');
 
         });
     });
