@@ -13,12 +13,14 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const router = require('./core/router');
 const db = mongoose.connection;
-const logger = require('./middleware/logger');
+const accessLogger = require('./middleware/access-logger');
+const errorLogger = require('./middleware/error-logger');
+
 
 // create express app
 const app = express();
 
-app.use(logger);
+app.use(accessLogger);
 
 // compress all responses
 app.use(compression());
@@ -44,6 +46,9 @@ app.set('view engine', 'pug');
 
 // register routes
 router(app);
+
+// register error handler
+app.use(errorLogger);
 
 // create https server
 const server = https.createServer({
