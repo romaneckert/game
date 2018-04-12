@@ -6,12 +6,10 @@ block append head
 
 block content
 
-    if errors && errors.form && errors.form.signup
-        ul
-            each error in errors.form.signup
-                li #{error.message}
+    form(method='POST' action='/user/sign-up/' name="signup")
 
-    form(method='POST' action='/user/sign-up/')
+        +formError('signup')
+
         div.form-group
             label(for='sign-up-email') Email:
             input#sign-up-email.form-control(type='email' placeholder='name@email.com' name='email')

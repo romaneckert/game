@@ -2,17 +2,19 @@ const core = require('../../core');
 
 module.exports = (req, res) => {
     if(req.body.password !== req.body.passwordRepeat) {
-        return res.render('home/index', {
+        res.render('home/index', {
             errors: {
                 form: {
                     signup: {
-                        password: {
-                            message: 'passwords are not the same',
-                            value: ''
-                        },
-                        passwordRepeat: {
-                            message: 'passwords are not the same',
-                            value: ''
+                        attributes: {
+                            password: {
+                                message: 'passwords are not the same',
+                                value: ''
+                            },
+                            passwordRepeat: {
+                                message: 'passwords are not the same',
+                                value: ''
+                            }
                         }
                     }
                 }
@@ -24,7 +26,7 @@ module.exports = (req, res) => {
 
         if(err) {
             console.log(err);
-            return res.redirect('/');
+            res.redirect('/');
         }
 
         var user = new core.model.user({
@@ -38,13 +40,15 @@ module.exports = (req, res) => {
                 return res.render('home/index', {
                     errors: {
                         form: {
-                            signup: err.errors
+                            signup: {
+                                errors: err.errors
+                            }
                         }
                     }
                 });
             }
             core.service.accessToken.addCookie(user,res);
-            return res.redirect('/user/overview/');
+            res.redirect('/user/overview/');
         });
     });
 }
