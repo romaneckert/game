@@ -6,20 +6,20 @@ block append head
 
 block content
 
-    +form(name='signUp' action='/user/sign-up/')
+    +form(name='signUp' action='/')
 
         div.form-group
             label(for='sign-up-email') Email:
-            input#sign-up-email.form-control(type='email' placeholder='name@email.com' name='email')
+            input#sign-up-email.form-control(type='email' placeholder='name@email.com' name='signUp[email]')
         div.form-group
             label(for='sign-up-password') Password:
-            input#sign-up-password.form-control(type='password' name='password')
+            input#sign-up-password.form-control(type='password' name='signUp[password]')
         div.form-group
             label(for='sign-up-password-repeat') Password:
-            input#sign-up-password-repeat.form-control(type='password' name='passwordRepeat')
+            input#sign-up-password-repeat.form-control(type='password' name='signUp[passwordRepeat]')
         button.btn.btn-primary(type='submit') Sign up
 
-    +form('signIn', '/user/sign-in/')
+    +form(name='signIn' action='/')
 
         +formInput(type="email" name='email', label='Email:', placeholder='name@email.com')
 

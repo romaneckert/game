@@ -1,6 +1,6 @@
 module.exports = {
     '/' : {
-        method: 'get',
+        method: ['get', 'post'],
         controller: require('../controller/home/index')
     },
 

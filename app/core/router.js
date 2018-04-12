@@ -11,7 +11,12 @@ module.exports = (app) => {
             app.use(routePath, roles(route.roles));
         }
 
-        app[route.method](routePath, route.controller);
-
+        if('object' === typeof route.method) {
+            for(let method of route.method) {
+                app[method](routePath, route.controller);
+            }
+        } else {
+            app[route.method](routePath, route.controller);
+        }
     }
 }
