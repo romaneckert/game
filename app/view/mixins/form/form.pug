@@ -1,0 +1,12 @@
+include error-list
+
+mixin form(name, action)
+
+    form(method='POST' action=action name=name)
+
+        +errorList(name)
+
+        if block
+            block
+
+

@@ -13,9 +13,11 @@ module.exports = (req, res) => {
             return res.render('home/index', {
                 errors: {
                     form: {
-                        errors: [
-                            'can not login, wrong credentials'
-                        ]
+                        signIn: {
+                            errors: [
+                                'can not login, wrong credentials'
+                            ]
+                        }
                     }
                 }
             });
