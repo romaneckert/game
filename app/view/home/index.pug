@@ -8,7 +8,7 @@ block content
 
     form(method='POST' action='/user/sign-up/' name="signup")
 
-        +formError('signup')
+        +formErrorList()
 
         div.form-group
             label(for='sign-up-email') Email:

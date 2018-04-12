@@ -1,0 +1,5 @@
+mixin formErrorList(errors)
+
+    if errors && errors.form && errors.form.errors
+        ul
+            li #{errors.form.errors}

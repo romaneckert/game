@@ -5,5 +5,5 @@ module.exports = (req, res) => {
         sameSite: 'Strict',
         secure: true,
     });
-    res.redirect('/');
+    return res.redirect('/');
 }

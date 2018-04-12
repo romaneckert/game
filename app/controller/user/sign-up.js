@@ -2,7 +2,7 @@ const core = require('../../core');
 
 module.exports = (req, res) => {
     if(req.body.password !== req.body.passwordRepeat) {
-        res.render('home/index', {
+        return res.render('home/index', {
             errors: {
                 form: {
                     signup: {
@@ -26,7 +26,7 @@ module.exports = (req, res) => {
 
         if(err) {
             console.log(err);
-            res.redirect('/');
+            return res.redirect('/');
         }
 
         var user = new core.model.user({
@@ -48,7 +48,7 @@ module.exports = (req, res) => {
                 });
             }
             core.service.accessToken.addCookie(user,res);
-            res.redirect('/user/overview/');
+            return res.redirect('/user/overview/');
         });
     });
 }
