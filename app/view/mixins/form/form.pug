@@ -1,10 +1,10 @@
 include error-list
 
-mixin form(name, action)
+mixin form()
 
-    form(method='POST' action=action name=name)
+    form(method='POST' action=attributes.action name=attributes.name)
 
-        +errorList(name)
+        +errorList(attributes.name)
 
         if block
             block

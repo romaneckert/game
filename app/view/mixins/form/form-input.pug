@@ -1,0 +1,4 @@
+mixin formInput()
+    div.form-group
+        label(for='sign-in-email') #{attributes.label}
+        input#sign-in-email.form-control(type=attributes.type placeholder=attributes.placeholder name=attributes.name)
